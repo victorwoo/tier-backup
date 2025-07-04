@@ -1,0 +1,151 @@
+{
+    "examples": {
+        "basic_config": {
+            "description": "基础配置 - 目录备份模式",
+            "config": {
+                "source_directory": "C:\\Users\\YourUsername\\Documents",
+                "target_directory": "D:\\Backups",
+                "max_disk_usage_percent": 85,
+                "log_level": "INFO",
+                "compress_backup": false,
+                "compression_level": 6,
+                "enable_symlink": true
+            }
+        },
+        "compressed_config": {
+            "description": "压缩备份模式 - 节省磁盘空间",
+            "config": {
+                "source_directory": "C:\\Users\\YourUsername\\Documents",
+                "target_directory": "D:\\Backups",
+                "max_disk_usage_percent": 85,
+                "log_level": "INFO",
+                "compress_backup": true,
+                "compression_level": 6,
+                "enable_symlink": true
+            }
+        },
+        "fast_compression": {
+            "description": "快速压缩 - 适合大文件",
+            "config": {
+                "source_directory": "C:\\Users\\YourUsername\\Documents",
+                "target_directory": "D:\\Backups",
+                "max_disk_usage_percent": 85,
+                "log_level": "INFO",
+                "compress_backup": true,
+                "compression_level": 1,
+                "enable_symlink": true
+            }
+        },
+        "high_compression": {
+            "description": "高压缩率 - 适合小文件",
+            "config": {
+                "source_directory": "C:\\Users\\YourUsername\\Documents",
+                "target_directory": "D:\\Backups",
+                "max_disk_usage_percent": 85,
+                "log_level": "INFO",
+                "compress_backup": true,
+                "compression_level": 9,
+                "enable_symlink": true
+            }
+        },
+        "symlink_only": {
+            "description": "仅软链接模式 - 最大空间节省",
+            "config": {
+                "source_directory": "C:\\Users\\YourUsername\\Documents",
+                "target_directory": "D:\\Backups",
+                "max_disk_usage_percent": 85,
+                "log_level": "INFO",
+                "compress_backup": false,
+                "compression_level": 6,
+                "enable_symlink": true
+            }
+        },
+        "no_symlink": {
+            "description": "禁用软链接 - 传统备份模式",
+            "config": {
+                "source_directory": "C:\\Users\\YourUsername\\Documents",
+                "target_directory": "D:\\Backups",
+                "max_disk_usage_percent": 85,
+                "log_level": "INFO",
+                "compress_backup": false,
+                "compression_level": 6,
+                "enable_symlink": false
+            }
+        },
+        "debug_config": {
+            "description": "调试模式 - 详细日志",
+            "config": {
+                "source_directory": "C:\\Users\\YourUsername\\Documents",
+                "target_directory": "D:\\Backups",
+                "max_disk_usage_percent": 85,
+                "log_level": "DEBUG",
+                "compress_backup": true,
+                "compression_level": 6,
+                "enable_symlink": true
+            }
+        },
+        "conservative_config": {
+            "description": "保守配置 - 低磁盘使用率",
+            "config": {
+                "source_directory": "C:\\Users\\YourUsername\\Documents",
+                "target_directory": "D:\\Backups",
+                "max_disk_usage_percent": 70,
+                "log_level": "INFO",
+                "compress_backup": true,
+                "compression_level": 6,
+                "enable_symlink": true
+            }
+        },
+        "maximum_space_saving": {
+            "description": "最大空间节省配置",
+            "config": {
+                "source_directory": "C:\\Users\\YourUsername\\Documents",
+                "target_directory": "D:\\Backups",
+                "max_disk_usage_percent": 80,
+                "log_level": "INFO",
+                "compress_backup": true,
+                "compression_level": 9,
+                "enable_symlink": true
+            }
+        }
+    },
+    "compression_levels": {
+        "1": "最快压缩，压缩率最低，适合大文件",
+        "2": "快速压缩，适合大文件",
+        "3": "快速压缩，适合大文件",
+        "4": "平衡模式，推荐用于一般文件",
+        "5": "平衡模式，推荐用于一般文件",
+        "6": "平衡模式，默认推荐",
+        "7": "高压缩率，适合小文件",
+        "8": "高压缩率，适合小文件",
+        "9": "最高压缩率，压缩时间最长，适合小文件"
+    },
+    "log_levels": {
+        "DEBUG": "最详细的日志信息，包含调试信息",
+        "INFO": "一般信息日志，推荐使用",
+        "WARNING": "只显示警告和错误信息",
+        "ERROR": "只显示错误信息"
+    },
+    "feature_combinations": {
+        "space_saving": {
+            "description": "空间节省组合",
+            "features": ["压缩备份", "软链接"],
+            "benefit": "节省90%以上磁盘空间"
+        },
+        "speed_optimized": {
+            "description": "速度优化组合",
+            "features": ["目录备份", "软链接"],
+            "benefit": "快速备份，中等空间节省"
+        },
+        "traditional": {
+            "description": "传统备份组合",
+            "features": ["目录备份", "无软链接"],
+            "benefit": "最兼容，无特殊要求"
+        },
+        "maximum_compression": {
+            "description": "最大压缩组合",
+            "features": ["高压缩", "软链接"],
+            "benefit": "最大空间节省，较慢备份"
+        }
+    }
+} 

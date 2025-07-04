@@ -1,0 +1,9 @@
+{
+    "source_directory": "C:\\Users\\YourUsername\\Documents",
+    "target_directory": "D:\\Backups",
+    "max_disk_usage_percent": 85,
+    "log_level": "INFO",
+    "compress_backup": false,
+    "compression_level": 6,
+    "enable_symlink": true
+}    
