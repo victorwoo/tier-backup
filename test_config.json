@@ -1,0 +1,9 @@
+{
+    "source_directory": "test/source",
+    "target_directory": "test/target",
+    "max_disk_usage_percent": 85,
+    "log_level": "INFO",
+    "compress_backup": false,
+    "compression_level": 6,
+    "enable_symlink": false
+} 

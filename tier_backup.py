@@ -15,10 +15,10 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
-def load_config():
+def load_config(config_file='back_config.json'):
     """加载配置文件"""
     try:
-        with open('back_config.json', 'r', encoding='utf-8') as f:
+        with open(config_file, 'r', encoding='utf-8') as f:
             return json.load(f)
     except Exception as e:
         logging.error(f"加载配置文件失败: {str(e)}")
@@ -460,11 +460,11 @@ def check_disk_space_and_cleanup(config, backup_dir):
     except Exception as e:
         logging.error(f"检查磁盘空间失败: {str(e)}")
 
-def main():
+def main(config_file='test_config.json'):
     """主函数"""
     try:
         logging.info("=== 备份脚本启动 ===")
-        config = load_config()
+        config = load_config(config_file)
         
         source_dir = config.get('source_directory', '')
         target_dir = config.get('target_directory', '')
