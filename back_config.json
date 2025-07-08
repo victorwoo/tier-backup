@@ -1,9 +1,9 @@
 {
-    "source_directory": "C:\\Users\\YourUsername\\Documents",
+    "source_directory": "D:\\ob\\IARD notes",
     "target_directory": "D:\\Backups",
     "max_disk_usage_percent": 85,
     "log_level": "INFO",
-    "compress_backup": false,
+    "compress_backup": true,
     "compression_level": 6,
-    "enable_symlink": true
+    "enable_symlink": false
 }    

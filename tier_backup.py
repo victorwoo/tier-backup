@@ -460,7 +460,7 @@ def check_disk_space_and_cleanup(config, backup_dir):
     except Exception as e:
         logging.error(f"检查磁盘空间失败: {str(e)}")
 
-def main(config_file='test_config.json'):
+def main(config_file='back_config.json'):
     """主函数"""
     try:
         logging.info("=== 备份脚本启动 ===")
