@@ -6,16 +6,19 @@
 
 - Windows 10 或更高版本
 - robocopy 命令（Windows 内置）
+- Python 3.7 或更高版本
 
 ### macOS
 
 - macOS 10.14 或更高版本
 - rsync 命令（macOS 内置）
+- Python 3.7 或更高版本
 
 ### Linux
 
 - 大多数 Linux 发行版
 - rsync 命令（通常需要安装：`sudo apt-get install rsync` 或 `sudo yum install rsync`）
+- Python 3.7 或更高版本
 
 ## 1. 创建配置文件
 
@@ -66,12 +69,16 @@
 
 ```bash
 python tier_backup.py
+# 或使用脚本
+scripts/run_backup.bat
 ```
 
 ### macOS/Linux
 
 ```bash
 python3 tier_backup.py
+# 或使用脚本
+./scripts/run_backup.sh
 ```
 
 ## 3. 设置定时任务
@@ -81,7 +88,7 @@ python3 tier_backup.py
 1. 打开任务计划程序
 2. 创建基本任务
 3. 设置触发器为每小时运行
-4. 设置操作为启动程序：`python C:\path\to\tier_backup.py`
+4. 设置操作为启动程序：`C:\path\to\tier-backup\scripts\run_backup.bat`
 
 ### macOS (crontab)
 
@@ -90,7 +97,7 @@ python3 tier_backup.py
 crontab -e
 
 # 添加每小时运行的任务
-0 * * * * /usr/bin/python3 /path/to/tier_backup.py
+0 * * * * /path/to/tier-backup/scripts/run_backup.sh
 ```
 
 ### Linux (crontab)
@@ -100,7 +107,7 @@ crontab -e
 crontab -e
 
 # 添加每小时运行的任务
-0 * * * * /usr/bin/python3 /path/to/tier_backup.py
+0 * * * * /path/to/tier-backup/scripts/run_backup.sh
 ```
 
 ## 4. 验证备份
@@ -126,9 +133,11 @@ Backups/
 
 - 查看robocopy返回码（0-7表示成功）
 - 检查日志文件 `backup.log`
+- 确保以管理员权限运行（软链接功能需要）
 
 ### macOS/Linux
 
 - 确保 rsync 已安装：`which rsync`
 - 检查日志文件 `backup.log`
 - 验证文件权限和磁盘空间
+- 确保脚本有执行权限：`chmod +x scripts/run_backup.sh`

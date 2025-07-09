@@ -70,7 +70,7 @@ tier-backup/
 ### 脚本文件 (scripts/)
 
 - **run_backup.bat**: Windows系统启动脚本
-- **run_backup.sh**: Linux/macOS系统启动脚本
+- **run_backup.sh**: macOS/Linux系统启动脚本
 
 ### 文档
 
@@ -160,6 +160,6 @@ backup/
 
 1. **模块化设计**: 核心功能、工具函数、测试分离
 2. **配置管理**: 统一的配置文件管理
-3. **跨平台支持**: Windows和Unix系统的脚本支持
+3. **跨平台支持**: Windows、macOS和Linux系统的脚本支持
 4. **开发工具**: 完整的开发工具链支持
 5. **文档完善**: 详细的文档说明 

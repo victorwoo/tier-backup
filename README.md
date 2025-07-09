@@ -2,9 +2,7 @@
 
 智能分层备份解决方案
 
-### Windows 智能备份脚本使用说明
-
-#### 一、概述
+## 一、概述
 
 本脚本实现了智能分层备份策略，能够自动判断并执行不同类型的备份：
 
@@ -22,7 +20,7 @@
 - **支持压缩备份**：可选择创建ZIP压缩包以节省磁盘空间
 - **支持软链接备份**：当目录内容未变化时，创建软链接而不是重复备份
 
-#### 二、项目结构
+## 二、项目结构
 
 ```
 tier-backup/
@@ -47,14 +45,30 @@ tier-backup/
 
 详细的项目结构说明请参考：[docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md)
 
-#### 三、配置说明
+## 三、配置说明
 
 编辑 `config/back_config.json` 文件，设置以下参数：
+
+**Windows 示例：**
 
 ```json
 {
     "source_directory": "C:\\Users\\YourUsername\\Documents",
     "target_directory": "D:\\Backups",
+    "max_disk_usage_percent": 85,
+    "log_level": "INFO",
+    "compress_backup": false,
+    "compression_level": 6,
+    "enable_symlink": true
+}
+```
+
+**macOS/Linux 示例：**
+
+```json
+{
+    "source_directory": "/Users/YourUsername/Documents",
+    "target_directory": "/Volumes/BackupDisk/Backups",
     "max_disk_usage_percent": 85,
     "log_level": "INFO",
     "compress_backup": false,
@@ -73,22 +87,22 @@ tier-backup/
 - `compression_level`：压缩级别（1-9，1最快但压缩率最低，9最慢但压缩率最高）
 - `enable_symlink`：是否启用软链接功能（true/false）
 
-#### 四、备份模式
+## 四、备份模式
 
-##### 1. 目录备份模式（默认）
+### 1. 目录备份模式（默认）
 
 - 直接复制源目录到目标位置
 - 保持原始文件结构
 - 访问速度快，便于浏览
 
-##### 2. 压缩备份模式
+### 2. 压缩备份模式
 
 - 将源目录压缩为ZIP文件
 - 显著节省磁盘空间
 - 支持不同压缩级别
 - 元数据信息存储在ZIP包内
 
-##### 3. 软链接备份模式
+### 3. 软链接备份模式
 
 - 当检测到目录内容未变化时，创建软链接
 - 极大节省磁盘空间和时间
@@ -102,16 +116,21 @@ tier-backup/
 3. 如果哈希值相同，创建软链接指向最后一次实际备份
 4. 如果哈希值不同，创建新的实际备份
 
-#### 五、安装步骤
+## 五、安装步骤
 
 1. **安装 Python**：确保系统已安装 Python 3.7 或更高版本
-2. **克隆项目**：`git clone https://github.com/victorwoo/tier-backup.git`
-3. **安装依赖**：`pip install -e .` 或 `make install`
-4. **配置参数**：修改 `config/back_config.json` 中的源目录和目标目录
-5. **选择备份模式**：设置 `compress_backup` 和 `enable_symlink` 参数
-6. **测试运行**：`make backup` 或 `python tier_backup.py`
+2. **安装系统依赖**：
+   - Windows：robocopy（系统内置）
+   - macOS：rsync（系统内置）
+   - Linux：`sudo apt-get install rsync` 或 `sudo yum install rsync`
+3. **克隆项目**：`git clone https://github.com/victorwoo/tier-backup.git`
+4. **安装依赖**：`pip install -e .` 或 `make install`
+5. **配置参数**：修改 `config/back_config.json` 中的源目录和目标目录
+6. **选择备份模式**：设置 `compress_backup` 和 `enable_symlink` 参数
+7. **测试运行**：`make backup` 或 `python tier_backup.py`
 
 **快速开始：**
+
 ```bash
 # 克隆项目
 git clone https://github.com/victorwoo/tier-backup.git
@@ -126,16 +145,26 @@ cp config/config_examples.json config/back_config.json
 
 # 运行备份
 make backup
+
+# 或使用脚本启动
+./scripts/run_backup.sh  # macOS/Linux
+scripts/run_backup.bat   # Windows
 ```
 
-#### 六、计划任务设置（简化版）
+## 六、计划任务设置（简化版）
 
 **只需要创建一个计划任务：**
 
-##### 每小时备份任务
+### Windows 系统
 
 - **触发器**：每天，每小时，持续执行
 - **操作**：启动程序 `D:\tier-backup\scripts\run_backup.bat`
+- **参数**：无（脚本会自动判断备份类型）
+
+### macOS/Linux 系统
+
+- **触发器**：每天，每小时，持续执行
+- **操作**：启动程序 `/path/to/tier-backup/scripts/run_backup.sh`
 - **参数**：无（脚本会自动判断备份类型）
 
 **脚本会自动判断：**
@@ -144,9 +173,9 @@ make backup
 - 每天23:59执行每日备份
 - 每周日23:55执行每周备份
 
-#### 七、备份文件结构
+## 七、备份文件结构
 
-##### 目录备份模式
+### 目录备份模式
 
 ```
 backup/
@@ -167,7 +196,7 @@ backup/
     └── ...
 ```
 
-##### 压缩备份模式
+### 压缩备份模式
 
 ```
 backup/
@@ -182,7 +211,7 @@ backup/
     └── ...
 ```
 
-##### 软链接备份模式
+### 软链接备份模式
 
 ```
 backup/
@@ -197,7 +226,7 @@ backup/
 - 完整的源文件副本（或软链接）
 - `backup_info.json` 元数据文件（包含备份类型、时间、压缩信息、哈希值等）
 
-#### 八、日志查看
+## 八、日志查看
 
 所有操作都会记录到 `backup.log` 文件中，示例日志格式：
 
@@ -212,7 +241,7 @@ backup/
 2025-01-15 10:00:02 - INFO - === 备份脚本执行完成 ===
 ```
 
-#### 九、智能清理策略
+## 九、智能清理策略
 
 脚本采用智能清理策略：
 
@@ -232,7 +261,7 @@ backup/
    - 自动检测文件变化
    - 支持跨文件系统的软链接
 
-#### 十、故障排除
+## 十、故障排除
 
 1. **脚本不运行**：
    - 检查 Python 路径是否正确
@@ -242,7 +271,8 @@ backup/
 2. **备份不完整**：
    - 确保源目录路径正确且有读取权限
    - 检查目标磁盘空间是否充足
-   - 查看robocopy返回码（0-7表示成功）
+   - Windows：查看robocopy返回码（0-7表示成功）
+   - macOS/Linux：查看rsync返回码（0表示成功）
 
 3. **压缩备份失败**：
    - 检查源目录是否包含特殊字符
@@ -259,7 +289,7 @@ backup/
    - 确保任务设置了正确的用户权限
    - 检查批处理文件路径是否正确
 
-#### 十一、注意事项
+## 十一、注意事项
 
 1. 首次运行会创建所有必要的目录结构
 2. 建议将备份目标设置在非系统盘上
@@ -272,10 +302,11 @@ backup/
    - 建议在系统负载较低时使用高压缩级别
 7. **软链接注意事项**：
    - Windows需要管理员权限才能创建软链接
+   - macOS/Linux默认支持软链接，无需特殊权限
    - 软链接指向的原始备份被删除后，软链接将失效
    - 建议定期验证软链接的有效性
 
-#### 十二、高级配置
+## 十二、高级配置
 
 如需修改备份策略，可以编辑 `tier_backup.py` 中的 `should_create_backup()` 函数：
 
@@ -297,7 +328,7 @@ def should_create_backup():
 
 如需修改保留策略，可以编辑 `cleanup_old_backups()` 函数中的保留数量。
 
-#### 十三、性能建议
+## 十三、性能建议
 
 1. **目录备份**：适合频繁访问的备份，I/O性能好
 2. **压缩备份**：适合长期存储，节省空间
@@ -307,10 +338,14 @@ def should_create_backup():
    - 小文件（<100MB）：使用级别7-9
    - 一般文件：使用级别4-6（默认）
 
-#### 十四、系统要求
+## 十四、系统要求
 
 - **操作系统**：Windows 7/8/10/11, Linux, macOS
 - **Python版本**：3.7或更高版本
+- **备份工具**：
+  - Windows：robocopy（系统内置）
+  - macOS：rsync（系统内置）
+  - Linux：rsync（需要安装：`sudo apt-get install rsync` 或 `sudo yum install rsync`）
 - **软链接支持**：
   - Windows：需要管理员权限
   - Linux/macOS：默认支持

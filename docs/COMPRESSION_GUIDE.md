@@ -78,8 +78,9 @@ backup/
 
 ### 查看备份内容
 ```bash
-# 使用Windows资源管理器
-# 直接双击.zip文件
+# Windows：使用资源管理器直接双击.zip文件
+# macOS：双击.zip文件或使用Finder
+# Linux：使用文件管理器或命令行
 
 # 使用命令行
 python -m zipfile -l backup/hourly/2025-01-15_1000.zip
@@ -87,8 +88,9 @@ python -m zipfile -l backup/hourly/2025-01-15_1000.zip
 
 ### 提取备份
 ```bash
-# 使用Windows资源管理器
-# 右键.zip文件 -> 提取全部
+# Windows：右键.zip文件 -> 提取全部
+# macOS：双击.zip文件自动解压
+# Linux：使用文件管理器或命令行
 
 # 使用命令行
 python -m zipfile -e backup/hourly/2025-01-15_1000.zip extract_folder/
