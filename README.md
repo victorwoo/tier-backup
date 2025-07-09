@@ -22,20 +22,34 @@
 - **支持压缩备份**：可选择创建ZIP压缩包以节省磁盘空间
 - **支持软链接备份**：当目录内容未变化时，创建软链接而不是重复备份
 
-#### 二、文件结构
+#### 二、项目结构
 
 ```
-backup/
-├── tier_backup.py        # 主备份脚本
-├── back_config.json      # 配置文件
-├── run_backup.bat        # 启动批处理文件
-├── backup.log            # 日志文件
-└── README.md             # 说明文档
+tier-backup/
+├── src/                    # 源代码目录
+│   ├── core/              # 核心功能模块
+│   │   └── tier_backup.py # 主备份逻辑
+│   ├── utils/             # 工具函数模块
+│   └── tests/             # 测试模块
+├── config/                # 配置文件目录
+│   ├── back_config.json   # 主配置文件
+│   └── config_examples.json # 配置示例
+├── scripts/               # 脚本文件目录
+│   ├── run_backup.bat     # Windows启动脚本
+│   └── run_backup.sh      # Linux/macOS启动脚本
+├── docs/                  # 文档目录
+├── examples/              # 示例文件目录
+├── tier_backup.py         # 主入口文件
+├── pyproject.toml         # Python项目配置
+├── Makefile              # 构建和开发工具
+└── backup.log            # 日志文件
 ```
+
+详细的项目结构说明请参考：[docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md)
 
 #### 三、配置说明
 
-编辑 `back_config.json` 文件，设置以下参数：
+编辑 `config/back_config.json` 文件，设置以下参数：
 
 ```json
 {
@@ -91,10 +105,28 @@ backup/
 #### 五、安装步骤
 
 1. **安装 Python**：确保系统已安装 Python 3.7 或更高版本
-2. **下载脚本**：将所有脚本文件复制到同一目录（如 `D:\backup`）
-3. **配置参数**：修改 `back_config.json` 中的源目录和目标目录
-4. **选择备份模式**：设置 `compress_backup` 和 `enable_symlink` 参数
-5. **测试运行**：双击 `run_backup.bat` 测试脚本是否正常工作
+2. **克隆项目**：`git clone https://github.com/victorwoo/tier-backup.git`
+3. **安装依赖**：`pip install -e .` 或 `make install`
+4. **配置参数**：修改 `config/back_config.json` 中的源目录和目标目录
+5. **选择备份模式**：设置 `compress_backup` 和 `enable_symlink` 参数
+6. **测试运行**：`make backup` 或 `python tier_backup.py`
+
+**快速开始：**
+```bash
+# 克隆项目
+git clone https://github.com/victorwoo/tier-backup.git
+cd tier-backup
+
+# 安装开发环境
+make install
+
+# 配置备份参数
+cp config/config_examples.json config/back_config.json
+# 编辑 config/back_config.json
+
+# 运行备份
+make backup
+```
 
 #### 六、计划任务设置（简化版）
 
@@ -103,7 +135,7 @@ backup/
 ##### 每小时备份任务
 
 - **触发器**：每天，每小时，持续执行
-- **操作**：启动程序 `D:\backup\run_backup.bat`
+- **操作**：启动程序 `D:\tier-backup\scripts\run_backup.bat`
 - **参数**：无（脚本会自动判断备份类型）
 
 **脚本会自动判断：**

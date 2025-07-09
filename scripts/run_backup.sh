@@ -6,8 +6,8 @@
 # 获取脚本所在目录
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# 切换到脚本目录
-cd "$SCRIPT_DIR"
+# 切换到项目根目录
+cd "$SCRIPT_DIR/.."
 
 # 检查 Python 是否可用
 if command -v python3 &> /dev/null; then
@@ -28,9 +28,9 @@ if ! command -v rsync &> /dev/null; then
 fi
 
 # 检查配置文件是否存在
-if [ ! -f "back_config.json" ]; then
-    echo "错误: 未找到 back_config.json 配置文件"
-    echo "请参考 config_examples.json 创建配置文件"
+if [ ! -f "config/back_config.json" ]; then
+    echo "错误: 未找到 config/back_config.json 配置文件"
+    echo "请参考 config/config_examples.json 创建配置文件"
     exit 1
 fi
 

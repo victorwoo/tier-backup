@@ -3,7 +3,7 @@ chcp 65001 >nul
 echo 正在启动智能备份脚本...
 echo 当前时间: %date% %time%
 
-cd /d "%~dp0"
+cd /d "%~dp0\.."
 python tier_backup.py
 
 if %errorlevel% equ 0 (
