@@ -107,6 +107,54 @@
                 "compression_level": 9,
                 "enable_symlink": true
             }
+        },
+        "windows_basic": {
+            "source_directory": "C:\\Users\\YourUsername\\Documents",
+            "target_directory": "D:\\Backups",
+            "compress_backup": false,
+            "compression_level": 6,
+            "enable_symlink": true,
+            "max_disk_usage_percent": 85
+        },
+        "windows_compressed": {
+            "source_directory": "C:\\Users\\YourUsername\\Documents",
+            "target_directory": "D:\\Backups",
+            "compress_backup": true,
+            "compression_level": 6,
+            "enable_symlink": true,
+            "max_disk_usage_percent": 85
+        },
+        "macos_basic": {
+            "source_directory": "/Users/YourUsername/Documents",
+            "target_directory": "/Volumes/BackupDisk/Backups",
+            "compress_backup": false,
+            "compression_level": 6,
+            "enable_symlink": true,
+            "max_disk_usage_percent": 85
+        },
+        "macos_compressed": {
+            "source_directory": "/Users/YourUsername/Documents",
+            "target_directory": "/Volumes/BackupDisk/Backups",
+            "compress_backup": true,
+            "compression_level": 6,
+            "enable_symlink": true,
+            "max_disk_usage_percent": 85
+        },
+        "linux_basic": {
+            "source_directory": "/home/YourUsername/Documents",
+            "target_directory": "/mnt/backup/Backups",
+            "compress_backup": false,
+            "compression_level": 6,
+            "enable_symlink": true,
+            "max_disk_usage_percent": 85
+        },
+        "linux_compressed": {
+            "source_directory": "/home/YourUsername/Documents",
+            "target_directory": "/mnt/backup/Backups",
+            "compress_backup": true,
+            "compression_level": 6,
+            "enable_symlink": true,
+            "max_disk_usage_percent": 85
         }
     },
     "compression_levels": {

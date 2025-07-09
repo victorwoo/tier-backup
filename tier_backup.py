@@ -5,6 +5,8 @@ import time
 import logging
 import zipfile
 import hashlib
+import platform
+import subprocess
 from datetime import datetime, timedelta
 import re
 
@@ -14,6 +16,22 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
+
+def get_platform():
+    """获取当前操作系统平台"""
+    return platform.system().lower()
+
+def is_windows():
+    """检查是否为 Windows 系统"""
+    return get_platform() == 'windows'
+
+def is_macos():
+    """检查是否为 macOS 系统"""
+    return get_platform() == 'darwin'
+
+def is_linux():
+    """检查是否为 Linux 系统"""
+    return get_platform() == 'linux'
 
 def load_config(config_file='back_config.json'):
     """加载配置文件"""
@@ -278,14 +296,54 @@ def create_backup(source_dir, target_base_dir, backup_type, compress=False, comp
         else:
             # 创建目录备份
             backup_path = backup_dir
-            # 使用robocopy进行高效复制（Windows系统）
-            cmd = f'robocopy "{source_dir}" "{backup_path}" /MIR /Z /COPY:DAT /R:3 /W:10 /NFL /NDL'
-            result = os.system(cmd)
             
-            # robocopy返回码：0-7表示成功，8及以上表示错误
-            if result > 7:
-                logging.error(f"{backup_type}备份失败，robocopy返回码: {result}")
-                return None
+            # 根据操作系统选择不同的复制方法
+            if is_windows():
+                # Windows 系统使用 robocopy
+                cmd = f'robocopy "{source_dir}" "{backup_path}" /MIR /Z /COPY:DAT /R:3 /W:10 /NFL /NDL'
+                result = os.system(cmd)
+                
+                # robocopy返回码：0-7表示成功，8及以上表示错误
+                if result > 7:
+                    logging.error(f"{backup_type}备份失败，robocopy返回码: {result}")
+                    return None
+            else:
+                # macOS/Linux 系统使用 rsync
+                try:
+                    # 确保目标目录存在
+                    os.makedirs(backup_path, exist_ok=True)
+                    
+                    # 使用 rsync 进行高效复制
+                    # -a: 归档模式，保持文件属性
+                    # -v: 详细输出
+                    # -z: 压缩传输
+                    # --delete: 删除目标目录中源目录没有的文件
+                    # --exclude: 排除隐藏文件和系统文件
+                    cmd = [
+                        'rsync', '-avz', '--delete',
+                        '--exclude=.*',
+                        '--exclude=*~',
+                        '--exclude=.DS_Store',
+                        '--exclude=Thumbs.db',
+                        f'{source_dir}/',
+                        f'{backup_path}/'
+                    ]
+                    
+                    result = subprocess.run(cmd, capture_output=True, text=True)
+                    
+                    if result.returncode != 0:
+                        logging.error(f"{backup_type}备份失败，rsync返回码: {result.returncode}")
+                        logging.error(f"rsync错误输出: {result.stderr}")
+                        return None
+                    else:
+                        logging.info(f"rsync备份成功: {result.stdout}")
+                        
+                except FileNotFoundError:
+                    logging.error("rsync 命令未找到，请确保已安装 rsync")
+                    return None
+                except Exception as e:
+                    logging.error(f"rsync备份失败: {str(e)}")
+                    return None
         
         # 计算目录哈希值
         directory_hash, file_count = calculate_directory_hash(source_dir)
